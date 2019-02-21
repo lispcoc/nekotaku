@@ -32,7 +32,7 @@
             v-list-tile-action
               v-icon(
                 color="success"
-                v-if="(Date.now() - member.timestamp) <= 60 * 1000"
+                v-if="(Date.now() - member.updatedAt) <= 60 * 1000"
               ) mdi-account
               v-icon(v-else) mdi-account-outline
             v-list-tile-content
@@ -55,6 +55,7 @@ export default {
     memberList() {
       return this.members && _(this.members)
         .filter(v => (typeof v === 'object'))
+        .filter(v => ((Date.now() - v.updatedAt) <=  60 * 1000))
         .map((value, uid) => ({ ...value, uid }))
         .sortBy(['timestamp'])
         .reverse()
